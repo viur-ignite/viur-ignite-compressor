@@ -1,0 +1,33 @@
+{
+	"name": "viur-ignite-compressor",
+	"version": "1.0.1",
+	"description": "An extension of viur-ignite",
+	"main": "index.js",
+	"scripts": {
+		"test": "\"echo Hello world\""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/viur-ignite/viur-ignite-compressor.git"
+	},
+	"keywords": [
+		"viur",
+		"ignite",
+		"compressor"
+	],
+	"author": "VIUR",
+	"license": "GPL-3.0",
+	"bugs": {
+		"url": "https://github.com/viur-ignite/viur-ignite-compressor/issues"
+	},
+	"homepage": "https://github.com/viur-ignite/viur-ignite-compressor#readme",
+	"devDependencies": {},
+	"dependencies": {
+		"gulp": "latest",
+		"gulp-rename": "latest",
+		"imagemin-pngquant": "latest",
+		"gulp-svgmin": "latest",
+		"gulp-favicons": "latest",
+		"gulp-imagemin": "latest"
+	}
+}
