@@ -59,7 +59,7 @@ module.exports = {
 				appDescription: options.appDescription,
 				developerName: options.developerName,
 				developerURL: options.developerURL,
-				background: options.backgroundColor,
+				background: options.background,
 				path: options.metaPath,
 				url: options.appURL,
 				display: options.display,
