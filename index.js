@@ -1,6 +1,6 @@
 "use strict";
 
-const PLUGIN_NAME = 'viur-ignite-css';
+const PLUGIN_NAME = 'viur-ignite-compressor';
 
 var	gulp = require('gulp'),
 	svgmin = require('gulp-svgmin'),
