@@ -1,59 +1,63 @@
-var gulp = require('gulp');
-var rename = require('gulp-rename');
+"use strict";
 
-var svgmin = require('gulp-svgmin');
-var imagemin = require('gulp-imagemin');
-var pngquant = require('imagemin-pngquant');
+const PLUGIN_NAME = 'viur-ignite-css';
 
-var favicons = require('gulp-favicons');
-
-var path = require('path');
+var	gulp = require('gulp'),
+	svgmin = require('gulp-svgmin'),
+	imagemin = require('gulp-imagemin'),
+	pngquant = require('imagemin-pngquant'),
+	favicons = require('gulp-favicons');
 
 
 module.exports = {
-	build: function(options, src, dest) {
-		if (typeof(options)==='undefined')					options						= {};
-		if (typeof(options.appName)==='undefined')			options['appName']			= 'My App';
-		if (typeof(options.appURL)==='undefined')			options['appURL']			= 'myapp.com';
-		if (typeof(options.appDescription)==='undefined')	options['appDescription']	= 'Description of My App';
-		if (typeof(options.developerName)==='undefined')	options['developerName']	= 'Developer of My App';
-		if (typeof(options.developerURL)==='undefined')		options['developerURL']		= 'URL of Developer';
-		if (typeof(options.background)==='undefined')		options['background']		= '#ffffff';
-		if (typeof(options.metaPath)==='undefined')			options['metaPath']			= '../static/meta';
-		if (typeof(options.index)==='undefined')			options['index']			= './appengine/html/index.html';
-		if (typeof(options.display)==='undefined')			options['display']			= 'standalone';
-		if (typeof(options.orientation)==='undefined')		options['orientation']		= 'portrait';
+	build: function(options) {
 
-		if (typeof(src)==='undefined') src = '/sources/';
-		if (typeof(dest)==='undefined') dest = '/appengine/static/';
+		// Set Default Options
+		var defaultOptions = {
+			src: './sources/',
+			dest: './appengine/static/',
+			appName: 'My App',
+			appURL: 'myapp.com',
+			appDescription: 'Description of My App',
+			developerName: 'Developer of My App',
+			developerURL: 'developer.com',
+			background: '#ffffff',
+			metaPath: '../static/meta',
+			index: './appengine/html/index.html',
+			display: 'standalone',
+			orientation: 'portrait'
+		};
 
-		src = dirname(dirname(__dirname)) + src; 
-		dest = dirname(dirname(__dirname)) + dest;
+		if (typeof(options)==='undefined') options = {};
+		for (var key in defaultOptions) {
+			if (typeof(options[key])==='undefined') options[key] = defaultOptions[key];
+		}
 
-		var ret = [];
+
+		var ret = []; // Return Array
 
 		// reduce images for web
-		ret.push(gulp.src(src+'/images/**/*')
+		ret.push(gulp.src(options.src+'/images/**/*')
 			.pipe(imagemin({
 				progressive: true,
 				svgoPlugins: [{removeViewBox: false}],
 				use: [pngquant()]
 			}))
-			.pipe(gulp.dest(dest+'/images'))
+			.pipe(gulp.dest(options.dest+'/images'))
 		);	
 
 		// reduce icons for web
-		ret.push(gulp.src(src+'/icons/**/*')
+		ret.push(gulp.src(options.src+'/icons/**/*')
 			.pipe(imagemin({
 				progressive: true,
 				svgoPlugins: [{removeViewBox: false}],
 				use: [pngquant()]
 			}))
-			.pipe(gulp.dest(dest+'/icons'))
+			.pipe(gulp.dest(options.dest+'/icons'))
 		);
 
 		// crop and resize one meta image to different favicon formats. 
-		ret.push(gulp.src(src+'/meta/*')
+		ret.push(gulp.src(options.src+'/meta/*')
 			.pipe(favicons({
 				appName: options.appName,
 				appDescription: options.appDescription,
@@ -70,14 +74,9 @@ module.exports = {
 				html: options.index,
 				replace: true
 			}))
-			.pipe(gulp.dest(dest+'/meta'))
+			.pipe(gulp.dest(options.dest+'/meta'))
 		);
 
 		return ret;
 	}
 };
-
-function dirname(path) {
-	return path.replace(/\\/g, '/')
-		.replace(/\/[^\/]*\/?$/, '');
-}
